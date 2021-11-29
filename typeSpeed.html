@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>TypeSpeed</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Josefin Sans", sans-serif;
+      }
+      .main-div {
+        width: 100%;
+        height: 100vh;
+        position: relative;
+        background-color:lightseagreen
+      }
+      .certer-div {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+      }
+      h1{text-transform: capitalize;
+        margin-bottom: 30px;
+        color: linen;
+        text-shadow: 1px 2px 3px black;
+        font-size: 2.1rem;
+    }
+    h2{text-align: center;}
+
+    textarea{color: white;
+    background-color: lightslategray;
+    border: 20px solid darkslateblue;
+    border-radius: 10px 10px 0 0 ;
+    font-size: 1.3rem;
+    text-align: left;
+}
+.mainbtn{
+    font-size: 1rem;
+    padding: 10px 25px ;
+    border: 5px solid darkslateblue;
+    border-radius: 20px;
+}
+    </style>
+  </head>
+  <body>
+    <div class="main-div">
+      <div class="certer-div">
+        <h1>Welcome to type speed test</h1>
+        <h2 id="msg"></h2>
+        <br />
+        <textarea
+          id="mytext"
+          cols="100"
+          rows="10"
+          placeholder="write something here"
+        >
+        </textarea
+        ><br />
+        <button id="btn" class="mainbtn">Start</button>
+      </div>
+    </div>
+
+    <script>
+        const setofwords=["With the grace of almighty Allah who created me strength to use my abilities to complete my final year project.",
+    "This project is also dedicated to my beloved parents",
+    "here i am declaring that the complete project and report work are based on my own effort under the supervision of my supervisor anwar ghani.",
+    "Every store owner have their own choice of price demand.",
+    "Sometimes the customers also does not want to visit market because of traffic issue."
+    ];
+    
+        const msg = document.getElementById('msg');
+        const btn = document.getElementById('btn');
+        const typewords = document.getElementById('mytext');
+        let startTime, endTime;
+        
+        const playgame=()=>{
+            let randomnbr = Math.floor(Math.random()*setofwords.length);
+            // console.log(randomnbr)
+            msg.innerText= setofwords[randomnbr];
+            // console.log(msg.innerText)
+            let date = new Date();
+            startTime = date.getTime();
+            btn.innerText = "Done";
+        }
+        const endplay = () => {
+            let date = new Date();
+            endTime = date.getTime();
+            let totalTime = ((endTime - startTime)/1000);
+            console.log(totalTime);
+            let totalstr = typewords.value;
+            let wordcount = wordcounter(totalstr);
+            // console.log(wordcount);
+            let speed = Math.round((wordcount/totalTime)*60);
+            // console.log(speed);
+            let finalmsg = 'You type total ' +speed+ ' words per minute.';
+            finalmsg += comparewords(msg.innerText,totalstr);
+            msg.innerText = finalmsg;
+
+        }
+        const comparewords=(str1,str2)=>{
+            let word1 = str1.split(' ');
+            let word2 = str2.split(' ');
+            let cnt = 0;
+     
+        word1.forEach(function(item,index) {
+            if(item == word2[index]){
+                cnt++;
+            }
+            });
+            let errorword = (word1.length-cnt);
+            return(cnt+'correct words out of '+word1.length+' and the total number of error are '+errorword);
+        }
+            const wordcounter =(str)=>{
+            const response = str.split(" ").length;
+            // console.log(response);
+            return response;
+        }
+        btn.addEventListener('click',function(){
+                if(this.innerText == 'Start'){
+                typewords.disabled = false;
+                playgame();
+              }else if(this.innerText == 'Done'){
+                  typewords.disabled =true;
+                  btn.innerText='Start';
+                  endplay();
+              }
+        })   
+    </script>
+  </body>
+</html>
